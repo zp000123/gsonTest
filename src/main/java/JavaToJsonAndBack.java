@@ -2,16 +2,19 @@
  * 转换 json 成一个 java 对象
  */
 
+import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaToJsonAndBack {
 
     public static void main(String[] args) {
+
         Albums albums = new Albums();
         albums.title = "Free Music Archive - Albums";
         albums.message = "";
@@ -20,10 +23,35 @@ public class JavaToJsonAndBack {
         albums.page = 1;
         albums.limit = "5";
         GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting().serializeNulls();
+        builder.setFieldNamingStrategy(new FieldNamingStrategy() {
+
+            @Override
+            public String translateName(Field f) {
+                if (f.getName().equals("albumId"))
+                    return "album_id";
+                else
+                    return f.getName();
+            }
+        });
         Gson gson = builder.create();
+
+        Dataset dataset = new Dataset();
+        dataset.album_id = "7596";
+        dataset.album_title = "Album 1";
+
+
+        AlbumImages image = new AlbumImages();
+        image.image_id = "1";
+        image.albumId = "10";
+        dataset.images.add(image);
+        albums.dataset.add(dataset);
+
         System.out.println(gson.toJson(albums));
 
     }
+
+
 }
 
 class Albums {
