@@ -1,3 +1,4 @@
+import com.google.gson.Gson
 import org.junit.Test
 
 class KotlinTest {
@@ -16,5 +17,24 @@ class KotlinTest {
 
         println("toJson : ${eink.toJson()}")
         println("getJsonStr: ${eink.getJsonStr()}")
+    }
+
+    @Test
+    fun testNum() {
+        val gson = Gson()
+//        val n = N(null)
+//        println(n.toJson())
+        val str = gson.fromJson("{\"a\":null}", N::class.java)
+        println(str)
+
+    }
+
+}
+
+class N(
+    var a: Double
+) {
+    override fun toString(): String {
+        return "N(a=$a)"
     }
 }
