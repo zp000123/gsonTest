@@ -5,6 +5,15 @@ import org.junit.Test
 
 class BuilderTest {
     @Test
+    fun newJson() {
+        val n1 = N1().apply {
+            a = "aaa"
+        }
+        val gson = Gson()
+        gson.toJson(n1)
+    }
+
+    @Test
     fun testGson() {
         val jsonStr = "{\"a\":\"test\"}"
         val gson = GsonBuilder().create()
